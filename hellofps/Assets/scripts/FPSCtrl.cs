@@ -37,10 +37,13 @@ public class FPSCtrl : MonoBehaviour {
 		float forwardspd = Input.GetAxis ("Vertical") * MOVESPD;
 		float sidespd = Input.GetAxis ("Horizontal") * MOVESPD;
 
-		verticalvelocity += Physics.gravity.y * Time.deltaTime; // adding velocity to accelerate
-		verticalvelocity = verticalvelocity > TERMINAL_VELOCITY ? verticalvelocity : TERMINAL_VELOCITY; // set terminal velocity so we don't get a huge number even though player's not falling
 		if (Input.GetButtonDown ("Jump")){
 			verticalvelocity = JUMPSPD;
+		} else if (cc.isGrounded){
+			verticalvelocity = 0;
+		} else {
+			verticalvelocity += Physics.gravity.y * Time.deltaTime; // adding velocity to accelerate
+			verticalvelocity = verticalvelocity > TERMINAL_VELOCITY ? verticalvelocity : TERMINAL_VELOCITY; // set terminal velocity so we don't get a huge number even though player's not falling
 		}
 
 		// this is weird: c# multiplication operator isn't commutative:
