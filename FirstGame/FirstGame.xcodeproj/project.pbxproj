@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		844329AD1A01A418003098B5 /* ground.png in Resources */ = {isa = PBXBuildFile; fileRef = 844329AC1A01A418003098B5 /* ground.png */; };
 		84F310A41A00168E001A18CA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F310A31A00168E001A18CA /* Foundation.framework */; };
 		84F310A61A00168E001A18CA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F310A51A00168E001A18CA /* CoreGraphics.framework */; };
 		84F310A81A00168E001A18CA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F310A71A00168E001A18CA /* UIKit.framework */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		844329AC1A01A418003098B5 /* ground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ground.png; sourceTree = "<group>"; };
 		84F310A01A00168E001A18CA /* FirstGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirstGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84F310A31A00168E001A18CA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84F310A51A00168E001A18CA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -132,6 +134,7 @@
 				84F310BE1A00168E001A18CA /* TRMyScene.m */,
 				84F310C01A00168E001A18CA /* Spaceship.png */,
 				84F310DF1A0020BF001A18CA /* bg.png */,
+				844329AC1A01A418003098B5 /* ground.png */,
 				84F310C21A00168E001A18CA /* Images.xcassets */,
 				84F310AC1A00168E001A18CA /* Supporting Files */,
 			);
@@ -244,6 +247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844329AD1A01A418003098B5 /* ground.png in Resources */,
 				84F310E01A0020BF001A18CA /* bg.png in Resources */,
 				84F310B01A00168E001A18CA /* InfoPlist.strings in Resources */,
 				84F310C31A00168E001A18CA /* Images.xcassets in Resources */,
@@ -477,6 +481,7 @@
 				84F310DB1A00168F001A18CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84F310DC1A00168F001A18CA /* Build configuration list for PBXNativeTarget "FirstGameTests" */ = {
 			isa = XCConfigurationList;
@@ -485,6 +490,7 @@
 				84F310DE1A00168F001A18CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
