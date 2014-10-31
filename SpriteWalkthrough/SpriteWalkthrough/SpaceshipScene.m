@@ -31,20 +31,75 @@
     SKSpriteNode *spaceship = [self newSpaceship];
     spaceship.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:spaceship];
+
+    SKAction *makeRocks = [SKAction sequence: @[
+                                                [SKAction performSelector:@selector(addRock) onTarget:self],
+                                                [SKAction waitForDuration:0.10 withRange:0.15]
+                                                ]];
+
+    [self runAction: [SKAction repeatActionForever:makeRocks]];
+}
+
+-(void)didSimulatePhysics
+{
+    [self enumerateChildNodesWithName:@"rock" usingBlock:^(SKNode *node, BOOL *stop) {
+        if (node.position.y < 0)
+            [node removeFromParent];
+    }];
+}
+
+// random point / number between low and high
+static inline CGFloat skRand(CGFloat low, CGFloat high) {
+    return rand() / (CGFloat) RAND_MAX * (high - low) + low;
+}
+
+- (void)addRock
+{
+    float w = skRand(5, 20);
+    float h = skRand(5, 20);
+    SKSpriteNode *rock = [[SKSpriteNode alloc] initWithColor:[SKColor redColor] size:CGSizeMake(w, h)];
+    rock.position = CGPointMake(skRand(0, self.size.width), self.size.height);
+    rock.name = @"rock";
+    rock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:rock.size];
+    rock.physicsBody.usesPreciseCollisionDetection = YES;
+    [self addChild:rock];
 }
 
 -(SKSpriteNode*)newSpaceship {
     SKSpriteNode* node = [[SKSpriteNode alloc] initWithColor:[SKColor greenColor] size:CGSizeMake(50, 50)];
-    
+
+    node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
+    node.physicsBody.dynamic = NO;
+
     SKAction *rotate = [SKAction rotateByAngle:M_PI*2 duration:2.0];
-    SKAction* move = [SKAction moveByX:100 y:200 duration:1.0];
-    SKAction* pause = [SKAction waitForDuration:1.0];
-    SKAction* back = [SKAction moveByX:-100.0 y:-200 duration:2];
-    SKAction *seq = [SKAction sequence:@[move, pause, back]];
+    SKAction *seq = [SKAction sequence:@[
+        [SKAction moveByX:100 y:200 duration:1.0],
+        [SKAction waitForDuration:1.0],
+        [SKAction moveByX:-100.0 y:-200 duration:2]
+    ]];
     SKAction *group = [SKAction group:@[rotate, seq]];
-    
+
     [node runAction: [SKAction repeatActionForever:group]];
+
+    SKSpriteNode *light1 = [self newLight];
+    light1.position = CGPointMake(-20, 30);
+    [node addChild:light1];
+
+    SKSpriteNode *light2 = [self newLight];
+    light2.position = CGPointMake(20, 30);
+    [node addChild:light2];
+
     return node;
+}
+
+-(SKSpriteNode*)newLight {
+    SKSpriteNode *light = [[SKSpriteNode alloc] initWithColor:[SKColor yellowColor] size:CGSizeMake(10, 10)];
+    SKAction *blink = [SKAction sequence:@[
+        [SKAction fadeOutWithDuration:0.25],
+        [SKAction fadeInWithDuration:0.25]]];
+    SKAction *blinkForever = [SKAction repeatActionForever:blink];
+    [light runAction: blinkForever];
+    return light;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
