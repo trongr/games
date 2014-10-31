@@ -21,6 +21,8 @@
     }
 }
 
+NSString* const MYNODENAME = @"MYNODENAME";
+
 -(void)createscenecontent {
     self.backgroundColor = [SKColor blueColor];
     self.scaleMode = SKSceneScaleModeAspectFill;
@@ -28,11 +30,26 @@
 }
 
 -(SKLabelNode*)newspritenode {
-    SKLabelNode* node = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    SKLabelNode* node = [SKLabelNode labelNodeWithFontNamed:@"AmericanTypewriter"];
+    node.name = MYNODENAME;
     node.text = @"hello y'all";
     node.fontSize = 42;
     node.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     return node;
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    SKNode* node = [self childNodeWithName:MYNODENAME];
+    if (node != nil){
+        node.name = nil;
+        SKAction* move = [SKAction moveByX:0 y:100 duration:0.5];
+        SKAction* zoom = [SKAction scaleTo: 2.0 duration: 0.25];
+        SKAction* pause = [SKAction waitForDuration: 0.5];
+        SKAction* fade = [SKAction fadeOutWithDuration: 0.25];
+        SKAction* remove = [SKAction removeFromParent];
+        SKAction* seq = [SKAction sequence:@[move, zoom, pause, fade, remove]];
+        [node runAction:seq];
+    }
 }
 
 @end
