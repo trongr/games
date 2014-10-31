@@ -22,6 +22,7 @@
 		84A33E421A030BF400D410D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84A33E401A030BF400D410D7 /* InfoPlist.strings */; };
 		84A33E441A030BF400D410D7 /* SpriteWalkthroughTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A33E431A030BF400D410D7 /* SpriteWalkthroughTests.m */; };
 		84A33E4F1A030E2000D410D7 /* SpriteScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A33E4E1A030E2000D410D7 /* SpriteScene.m */; };
+		84A33E521A03189500D410D7 /* SpaceshipScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A33E511A03189500D410D7 /* SpaceshipScene.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		84A33E431A030BF400D410D7 /* SpriteWalkthroughTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpriteWalkthroughTests.m; sourceTree = "<group>"; };
 		84A33E4D1A030E2000D410D7 /* SpriteScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteScene.h; sourceTree = "<group>"; };
 		84A33E4E1A030E2000D410D7 /* SpriteScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteScene.m; sourceTree = "<group>"; };
+		84A33E501A03189500D410D7 /* SpaceshipScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpaceshipScene.h; sourceTree = "<group>"; };
+		84A33E511A03189500D410D7 /* SpaceshipScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpaceshipScene.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +125,8 @@
 				84A33E2E1A030BF400D410D7 /* SpriteViewController.m */,
 				84A33E4D1A030E2000D410D7 /* SpriteScene.h */,
 				84A33E4E1A030E2000D410D7 /* SpriteScene.m */,
+				84A33E501A03189500D410D7 /* SpaceshipScene.h */,
+				84A33E511A03189500D410D7 /* SpaceshipScene.m */,
 				84A33E301A030BF400D410D7 /* Images.xcassets */,
 				84A33E1F1A030BF400D410D7 /* Supporting Files */,
 			);
@@ -257,6 +262,7 @@
 			files = (
 				84A33E251A030BF400D410D7 /* main.m in Sources */,
 				84A33E4F1A030E2000D410D7 /* SpriteScene.m in Sources */,
+				84A33E521A03189500D410D7 /* SpaceshipScene.m in Sources */,
 				84A33E291A030BF400D410D7 /* SpriteAppDelegate.m in Sources */,
 				84A33E2F1A030BF400D410D7 /* SpriteViewController.m in Sources */,
 			);
@@ -467,6 +473,7 @@
 				84A33E491A030BF400D410D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84A33E4A1A030BF400D410D7 /* Build configuration list for PBXNativeTarget "SpriteWalkthroughTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +482,7 @@
 				84A33E4C1A030BF400D410D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
