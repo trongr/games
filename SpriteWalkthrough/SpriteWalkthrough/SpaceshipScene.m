@@ -66,7 +66,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 }
 
 -(SKSpriteNode*)newSpaceship {
-    SKSpriteNode* node = [[SKSpriteNode alloc] initWithColor:[SKColor greenColor] size:CGSizeMake(50, 50)];
+    SKSpriteNode* node = [[SKSpriteNode alloc] initWithColor:[SKColor greenColor] size:CGSizeMake(200, 50)];
 
     node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
     node.physicsBody.dynamic = NO;
