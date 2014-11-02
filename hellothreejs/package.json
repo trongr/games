@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "./node_modules/http-server/bin/http-server"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,7 @@
     "url": "https://github.com/trongtruong/games/issues"
   },
   "homepage": "https://github.com/trongtruong/games",
-  "devDependencies": {}
+  "devDependencies": {
+    "http-server": "^0.7.2"
+  }
 }

@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "stats.js": "*",
-    "threejs": "*"
+    "threejs": "*",
+    "jquery": "~2.1.1"
   }
 }

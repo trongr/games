@@ -1,6 +1,6 @@
 var tri = (function(){
     var tri = {}
-    
+
     tri.k = {
         renderer: {
             antialias: true,
@@ -17,7 +17,7 @@ var tri = (function(){
         light: {
             // this is the direction the light shines from. does that mean it shines towards the origin?
             // shines from the right hand side (x:1) bottom (y:-1) and closer to the screen (z:1)
-            pos: {x:2, y:-2, z:4}, 
+            pos: {x:2, y:-2, z:4},
             intensity: 1, // anything more than 1 makes a surface white when shone head on
         },
         box: {
@@ -25,7 +25,7 @@ var tri = (function(){
         },
         rot: [0.01, 0.001, 0.0001],
     }
-    
+
     tri.rotate = function(obj, i){
         obj.rotation.x += tri.k.rot[i % 3];
         obj.rotation.y += tri.k.rot[(i + 1) % 3];
@@ -42,12 +42,12 @@ var tri = (function(){
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 
-        var light = new THREE.DirectionalLight("white", tri.k.light.intensity); 
-        light.position.set(tri.k.light.pos.x, tri.k.light.pos.y, tri.k.light.pos.z).normalize(); 
+        var light = new THREE.DirectionalLight("white", tri.k.light.intensity);
+        light.position.set(tri.k.light.pos.x, tri.k.light.pos.y, tri.k.light.pos.z).normalize();
         scene.add( light );
 
         var geometry = new THREE.BoxGeometry(tri.k.box.geo.w, tri.k.box.geo.w, tri.k.box.geo.d);
-//         var geometry = new THREE.SphereGeometry(1, 10, 10);
+        //         var geometry = new THREE.SphereGeometry(1, 10, 10);
 
         var material1 = new THREE.MeshPhongMaterial({
             color: "pink",
@@ -63,16 +63,16 @@ var tri = (function(){
             color: "lightblue",
             specular: "white",
             shininess: 180,
-        });        
-        
-//         var material1 = new THREE.MeshLambertMaterial( {color:"pink"} );
-//         var material2 = new THREE.MeshLambertMaterial( {color:"lightgreen"} );
-//         var material3 = new THREE.MeshLambertMaterial( {color:"lightblue"} );
-        
-//         // nice colors on obj faces
-//         var material1 = new THREE.MeshNormalMaterial();
-//         var material2 = new THREE.MeshNormalMaterial();
-//         var material3 = new THREE.MeshNormalMaterial();
+        });
+
+        //         var material1 = new THREE.MeshLambertMaterial( {color:"pink"} );
+        //         var material2 = new THREE.MeshLambertMaterial( {color:"lightgreen"} );
+        //         var material3 = new THREE.MeshLambertMaterial( {color:"lightblue"} );
+
+        //         // nice colors on obj faces
+        //         var material1 = new THREE.MeshNormalMaterial();
+        //         var material2 = new THREE.MeshNormalMaterial();
+        //         var material3 = new THREE.MeshNormalMaterial();
 
         var obj1 = new THREE.Mesh( geometry, material1 );
         var obj2 = new THREE.Mesh( geometry, material2 );
@@ -82,15 +82,38 @@ var tri = (function(){
         scene.add( obj2 );
         scene.add( obj3 );
 
+		controls = new THREE.TrackballControls( camera );
+
+		controls.rotateSpeed = 1.0;
+		controls.zoomSpeed = 1.2;
+		controls.panSpeed = 0.8;
+
+		controls.noZoom = false;
+		controls.noPan = false;
+
+		controls.staticMoving = true;
+		controls.dynamicDampingFactor = 0.3;
+
+		controls.keys = [ 65, 83, 68 ];
+
+		controls.addEventListener( 'change', render );
+
         camera.position.z = tri.k.cam.pos.z;
 
         function animate() {
             requestAnimationFrame(animate);
+            update()
+            render()
+            controls.update()
+        }
 
+        function update(){
             tri.rotate(obj1, 0)
             tri.rotate(obj2, 1)
             tri.rotate(obj3, 2)
+        }
 
+        function render(){
             renderer.render(scene, camera);
         }
 
