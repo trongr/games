@@ -38,3 +38,5 @@ build/
 */*.moved-aside
 */DerivedData
 */*.xcuserstate
+
+bower_components
