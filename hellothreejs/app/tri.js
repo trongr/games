@@ -1,88 +1,108 @@
 var tri = (function(){
     var tri = {}
 
-    tri.k = {
-        renderer: {
-            antialias: true,
-            alpha: false, // set to true for white background
-        },
+    var scene, cam, renderer, light, geometry, controls;
+
+    var k = {
         antialias: true,
-        cam: {
-            fov: 75,
-            asp: window.innerWidth / window.innerHeight,
-            near: 0.1,
-            far: 10,
-            pos: {x:0, y:0, z:2}
-        },
-        light: {
-            // this is the direction the light shines from. does that mean it shines towards the origin?
-            // shines from the right hand side (x:1) bottom (y:-1) and closer to the screen (z:1)
-            pos: {x:2, y:-2, z:4},
-            intensity: 1, // anything more than 1 makes a surface white when shone head on
-        },
-        box: {
-            geo: {w:1, h:1, d:1}
-        },
-        rot: [0.01, 0.001, 0.0001],
+        alpha: false,
+        fov: 75,
+        asp: window.innerWidth / window.innerHeight,
+        near: 0.1,
+        far: 10,
+        camz: 2,
+        lightx: 0, lighty: 0, lightz: 2,
+        lightintensity: 1,
+        boxw: 1, boxh: 1, boxd: 1,
+        rotations: [0.01, 0.001, 0.0001],
     }
 
-    tri.rotate = function(obj, i){
-        obj.rotation.x += tri.k.rot[i % 3];
-        obj.rotation.y += tri.k.rot[(i + 1) % 3];
-        obj.rotation.z += tri.k.rot[(i + 2) % 3];
+    var g = {
+        mat1: null,
+        mat2: null,
+        mat3: null,
+        obj1: null,
+        obj2: null,
+        obj3: null,
     }
 
-    tri.init = function(){
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(tri.k.cam.fov, tri.k.cam.asp, tri.k.cam.near, tri.k.cam.far);
-        var renderer = new THREE.WebGLRenderer({
-            antialias: tri.k.renderer.antialias,
-            alpha: tri.k.renderer.alpha
+    function rotate(obj, i){
+        obj.rotation.x += k.rotations[i % 3];
+        obj.rotation.y += k.rotations[(i + 1) % 3];
+        obj.rotation.z += k.rotations[(i + 2) % 3];
+    }
+
+    tri.update = function(){
+        rotate(g.obj1, 0)
+        rotate(g.obj2, 1)
+        rotate(g.obj3, 2)
+    }
+
+    tri.render = function(){
+        renderer.render(scene, cam);
+    }
+
+    tri.animate = function(){
+        requestAnimationFrame(tri.animate);
+        tri.update()
+        tri.render()
+        controls.update()
+    }
+
+    tri.setupscene = function(){
+        scene = new THREE.Scene();
+        cam = new THREE.PerspectiveCamera(k.fov, k.asp, k.near, k.far);
+        cam.position.z = k.camz;
+        renderer = new THREE.WebGLRenderer({
+            antialias: k.antialias,
+            alpha: k.alpha
         });
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        document.body.appendChild( renderer.domElement );
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-        var light = new THREE.DirectionalLight("white", tri.k.light.intensity);
-        light.position.set(tri.k.light.pos.x, tri.k.light.pos.y, tri.k.light.pos.z).normalize();
-        scene.add( light );
+        light = new THREE.DirectionalLight("white", k.lightintensity);
+        light.position.set(k.lightx, k.lighty, k.lightz).normalize();
+        scene.add(light);
+    }
 
-        var geometry = new THREE.BoxGeometry(tri.k.box.geo.w, tri.k.box.geo.w, tri.k.box.geo.d);
-        //         var geometry = new THREE.SphereGeometry(1, 10, 10);
+    tri.setupobjs = function(){
+        geometry = new THREE.BoxGeometry(k.boxw, k.boxh, k.boxd);
+        //         geometry = new THREE.SphereGeometry(1, 10, 10);
 
-        var material1 = new THREE.MeshPhongMaterial({
-            color: "pink",
-            specular: "green",
-            shininess: 30,
-        });
-        var material2 = new THREE.MeshPhongMaterial({
+        g.mat1 = new THREE.MeshPhongMaterial({color:"pink", specular:"green", shininess:30});
+
+        g.mat2 = new THREE.MeshPhongMaterial({
             color: "lightgreen",
             specular: "lightblue", // black is more matte, white more shiny
             shininess: 30,
         });
-        var material3 = new THREE.MeshPhongMaterial({
+
+        g.mat3 = new THREE.MeshPhongMaterial({
             color: "lightblue",
             specular: "white",
             shininess: 180,
         });
 
-        //         var material1 = new THREE.MeshLambertMaterial( {color:"pink"} );
-        //         var material2 = new THREE.MeshLambertMaterial( {color:"lightgreen"} );
-        //         var material3 = new THREE.MeshLambertMaterial( {color:"lightblue"} );
+        //         g.mat1 = new THREE.MeshLambertMaterial( {color:"pink"} );
+        //         g.mat2 = new THREE.MeshLambertMaterial( {color:"lightgreen"} );
+        //         g.mat3 = new THREE.MeshLambertMaterial( {color:"lightblue"} );
 
         //         // nice colors on obj faces
-        //         var material1 = new THREE.MeshNormalMaterial();
-        //         var material2 = new THREE.MeshNormalMaterial();
-        //         var material3 = new THREE.MeshNormalMaterial();
+        //         g.mat1 = new THREE.MeshNormalMaterial();
+        //         g.mat2 = new THREE.MeshNormalMaterial();
+        //         g.mat3 = new THREE.MeshNormalMaterial();
 
-        var obj1 = new THREE.Mesh( geometry, material1 );
-        var obj2 = new THREE.Mesh( geometry, material2 );
-        var obj3 = new THREE.Mesh( geometry, material3 );
+        g.obj1 = new THREE.Mesh( geometry, g.mat1 );
+        g.obj2 = new THREE.Mesh( geometry, g.mat2 );
+        g.obj3 = new THREE.Mesh( geometry, g.mat3 );
 
-        scene.add( obj1 );
-        scene.add( obj2 );
-        scene.add( obj3 );
+        scene.add( g.obj1 );
+        scene.add( g.obj2 );
+        scene.add( g.obj3 );
+    }
 
-		controls = new THREE.TrackballControls( camera );
+    tri.setupcontrols = function(){
+		controls = new THREE.TrackballControls(cam);
 
 		controls.rotateSpeed = 1.0;
 		controls.zoomSpeed = 1.2;
@@ -96,29 +116,19 @@ var tri = (function(){
 
 		controls.keys = [ 65, 83, 68 ];
 
-		controls.addEventListener( 'change', render );
+		controls.addEventListener( 'change', tri.render );
+    }
 
-        camera.position.z = tri.k.cam.pos.z;
+    tri.setup = function(){
+        tri.setupscene()
+        tri.setupobjs()
+        tri.setupcontrols()
+    }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            update()
-            render()
-            controls.update()
-        }
-
-        function update(){
-            tri.rotate(obj1, 0)
-            tri.rotate(obj2, 1)
-            tri.rotate(obj3, 2)
-        }
-
-        function render(){
-            renderer.render(scene, camera);
-        }
-
-        animate();
+    tri.init = function(){
+        tri.setup()
+        tri.animate();
     }
 
     return tri
-}())
+}());
