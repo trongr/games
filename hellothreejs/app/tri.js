@@ -2,6 +2,7 @@ var tri = (function(){
     var tri = {}
 
     var scene, cam, renderer, light, geometry, controls;
+    var stats;
 
     var k = {
         antialias: true,
@@ -36,6 +37,7 @@ var tri = (function(){
         rotate(g.obj1, 0)
         rotate(g.obj2, 1)
         rotate(g.obj3, 2)
+        stats.update()
     }
 
     tri.render = function(){
@@ -67,7 +69,7 @@ var tri = (function(){
 
     tri.setupobjs = function(){
         geometry = new THREE.BoxGeometry(k.boxw, k.boxh, k.boxd);
-        //         geometry = new THREE.SphereGeometry(1, 10, 10);
+        // geometry = new THREE.SphereGeometry(1, 10, 10);
 
         g.mat1 = new THREE.MeshPhongMaterial({color:"pink", specular:"green", shininess:30});
 
@@ -116,13 +118,22 @@ var tri = (function(){
 
 		controls.keys = [ 65, 83, 68 ];
 
-		controls.addEventListener( 'change', tri.render );
+		controls.addEventListener('change', tri.render);
+    }
+
+    tri.setupstats = function(){
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.getElementById("info").appendChild( stats.domElement );
     }
 
     tri.setup = function(){
         tri.setupscene()
         tri.setupobjs()
         tri.setupcontrols()
+        tri.setupstats()
     }
 
     tri.init = function(){

@@ -17,6 +17,7 @@
   "dependencies": {
     "stats.js": "*",
     "threejs": "*",
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "mousetrap": "~1.4.6"
   }
 }
