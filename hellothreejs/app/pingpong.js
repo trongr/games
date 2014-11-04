@@ -26,7 +26,6 @@ var tri = (function(){
         requestAnimationFrame(tri.animate);
         tri.update()
         tri.render()
-        // controls.update() // TODO CONTROLS
     }
 
     tri.setupscene = function(){
@@ -76,7 +75,6 @@ var tri = (function(){
                     }
                 }
             } );
-
             // obj.position.y -= 50
             // obj.position.z -= 250
             scene.add(obj)
@@ -94,7 +92,8 @@ var tri = (function(){
 
         // tri.loadobj(scene, "static/eiffel-tower.scene/eiffel-tower.json",
         //            "static/eiffel-tower.scene/OLDMETAL.JPG")
-        tri.loadobj(scene, "static/tank.object/tank.json", null)
+        tri.loadobj(scene, "static/tank.object/tank.json",
+                   "static/tank.object/CANNON_DM.png")
     }
 
     tri.bind = function(){
@@ -109,43 +108,23 @@ var tri = (function(){
         })
 
         Mousetrap.bind(["right", "d"], function(e){
-            cam.rotation.z -= k.deltarotate
+            cam.rotation.y -= k.deltarotate
             return false
         })
 
         Mousetrap.bind(["left", "a"], function(e){
-            cam.rotation.z += k.deltarotate
+            cam.rotation.y += k.deltarotate
             return false
         })
     }
 
     tri.setupcam = function(){
         cam = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        // cam.position.x = 10;
-        // cam.position.z = k.heightaboveground;
-        // cam.up = new THREE.Vector3(0, 0, 1)
+        cam.position.x = 10;
+        cam.up = new THREE.Vector3(0, 1, 0)
         // cam.rotation.order = "YXZ"
         // cam.rotation.z = 0
-        // cam.lookAt(new THREE.Vector3(0, 0, k.heightaboveground))
-
-        // // TODO CONTROLS. controls interfere with rotation
-        // cam.position.z = 0;
-
-		// controls = new THREE.TrackballControls(cam);
-
-		// controls.rotateSpeed = 1.0;
-		// controls.zoomSpeed = 1.2;
-		// controls.panSpeed = 0.8;
-
-		// controls.noZoom = false;
-		// controls.noPan = false;
-
-		// controls.staticMoving = true;
-		// controls.dynamicDampingFactor = 0.3;
-
-		// controls.keys = [ 65, 83, 68 ];
-
-		// controls.addEventListener('change', tri.render);
+        cam.lookAt(scene.position)
     }
 
     tri.setupstats = function(){

@@ -1,0 +1,14 @@
+{
+  "name": "voxel101",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "trng",
+  "license": "ISC",
+  "dependencies": {
+    "voxel-hello-world": "^0.6.0"
+  }
+}
