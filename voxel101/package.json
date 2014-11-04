@@ -9,6 +9,9 @@
   "author": "trng",
   "license": "ISC",
   "dependencies": {
-    "voxel-hello-world": "^0.6.0"
+    "voxel": "^0.4.0",
+    "voxel-engine": "^0.20.1",
+    "voxel-hello-world": "^0.6.0",
+    "voxel-player": "^0.1.0"
   }
 }
