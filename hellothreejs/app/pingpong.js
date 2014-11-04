@@ -39,7 +39,7 @@ var tri = (function(){
 
         scene = new THREE.Scene();
         light = new THREE.DirectionalLight("white", 1);
-        light.position.set(10, 20, 30).normalize();
+        light.position.set(1, 1, 1).normalize();
         scene.add(light);
 
         // var geometry = new THREE.PlaneGeometry( 20, 20, 10, 10);
@@ -61,8 +61,26 @@ var tri = (function(){
         // g.obj1 = new THREE.Mesh(geometry, g.mat1);
         // scene.add(g.obj1);
 
-        var loader = new THREE.ObjectLoader();
+        var manager = new THREE.LoadingManager();
+        manager.onProgress = function ( item, loaded, total ) {
+            console.log( item, loaded, total );
+        };
+
+        var texture = new THREE.Texture()
+        var loader = new THREE.ImageLoader( manager );
+        loader.load( 'static/eiffel-tower.scene/OLDMETAL.JPG', function ( image ) {
+            texture.image = image;
+            texture.needsUpdate = true;
+        } );
+
+        var loader = new THREE.ObjectLoader(manager);
         loader.load( "static/eiffel-tower.scene/eiffel-tower.json", function(obj){
+	        obj.traverse( function ( child ) {
+                if ( child instanceof THREE.Mesh ) {
+                    child.material.map = texture;
+                }
+            } );
+
             obj.position.y -= 50
             obj.position.z -= 250
             scene.add(obj)
@@ -101,7 +119,7 @@ var tri = (function(){
         // cam.lookAt(new THREE.Vector3(0, 0, k.heightaboveground))
 
         // TODO CONTROLS. controls interfere with rotation
-        cam.position.z = 10;
+        cam.position.z = 0;
 
 		controls = new THREE.TrackballControls(cam);
 
