@@ -26,7 +26,7 @@ var tri = (function(){
         requestAnimationFrame(tri.animate);
         tri.update()
         tri.render()
-        // controls.update() // TODO CONTROLS
+        controls.update() // TODO CONTROLS
     }
 
     tri.setupscene = function(){
@@ -42,17 +42,17 @@ var tri = (function(){
         light.position.set(10, 20, 30).normalize();
         scene.add(light);
 
-        var geometry = new THREE.PlaneGeometry( 20, 20, 10, 10);
-        var material = new THREE.MeshBasicMaterial( {
-            color: "white",
-            wireframe: true,
-            fog: true,
-        } );
-        var plane = new THREE.Mesh( geometry, material );
-        scene.add( plane );
+        // var geometry = new THREE.PlaneGeometry( 20, 20, 10, 10);
+        // var material = new THREE.MeshBasicMaterial( {
+        //     color: "white",
+        //     wireframe: true,
+        //     fog: true,
+        // } );
+        // var plane = new THREE.Mesh( geometry, material );
+        // scene.add( plane );
     }
 
-    tri.setupobjs = function(){
+    tri.setupmap = function(){
         // geometry = new THREE.BoxGeometry(10, 10, 1);
         // g.mat1 = new THREE.MeshLambertMaterial({
         //     color: "lightgreen",
@@ -60,6 +60,14 @@ var tri = (function(){
         // });
         // g.obj1 = new THREE.Mesh(geometry, g.mat1);
         // scene.add(g.obj1);
+
+        var loader = new THREE.ObjectLoader();
+        loader.load( "static/eiffel-tower.scene/eiffel-tower.json", function(obj){
+            obj.position.y -= 50
+            obj.position.z -= 250
+            scene.add(obj)
+        });
+
     }
 
     tri.bind = function(){
@@ -85,29 +93,31 @@ var tri = (function(){
     }
 
     tri.setupcam = function(){
-        cam = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-        cam.position.x = 10;
-        cam.position.z = k.heightaboveground;
-        cam.up = new THREE.Vector3(0, 0, 1)
-        cam.rotation.order = "ZXY"
-        cam.lookAt(new THREE.Vector3(0, 0, k.heightaboveground))
+        cam = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // cam.position.x = 10;
+        // cam.position.z = k.heightaboveground;
+        // cam.up = new THREE.Vector3(0, 0, 1)
+        // cam.rotation.order = "ZXY"
+        // cam.lookAt(new THREE.Vector3(0, 0, k.heightaboveground))
 
         // TODO CONTROLS. controls interfere with rotation
-		// controls = new THREE.TrackballControls(cam);
+        cam.position.z = 10;
 
-		// controls.rotateSpeed = 1.0;
-		// controls.zoomSpeed = 1.2;
-		// controls.panSpeed = 0.8;
+		controls = new THREE.TrackballControls(cam);
 
-		// controls.noZoom = false;
-		// controls.noPan = false;
+		controls.rotateSpeed = 1.0;
+		controls.zoomSpeed = 1.2;
+		controls.panSpeed = 0.8;
 
-		// controls.staticMoving = true;
-		// controls.dynamicDampingFactor = 0.3;
+		controls.noZoom = false;
+		controls.noPan = false;
 
-		// controls.keys = [ 65, 83, 68 ];
+		controls.staticMoving = true;
+		controls.dynamicDampingFactor = 0.3;
 
-		// controls.addEventListener('change', tri.render);
+		controls.keys = [ 65, 83, 68 ];
+
+		controls.addEventListener('change', tri.render);
     }
 
     tri.setupstats = function(){
@@ -120,9 +130,9 @@ var tri = (function(){
 
     tri.setup = function(){
         tri.setupscene()
-        tri.setupobjs()
         tri.setupcam()
         tri.setupstats()
+        tri.setupmap()
         tri.bind()
     }
 
