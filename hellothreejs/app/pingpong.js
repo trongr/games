@@ -26,7 +26,7 @@ var tri = (function(){
         requestAnimationFrame(tri.animate);
         tri.update()
         tri.render()
-        controls.update() // TODO CONTROLS
+        // controls.update() // TODO CONTROLS
     }
 
     tri.setupscene = function(){
@@ -52,6 +52,37 @@ var tri = (function(){
         // scene.add( plane );
     }
 
+    tri.loadobj = function(scene, scenefile, texturefile){
+        var manager = new THREE.LoadingManager();
+        manager.onProgress = function ( item, loaded, total ) {
+            console.log( item, loaded, total );
+        };
+
+        if (texturefile){
+            var texture = new THREE.Texture()
+            var textureloader = new THREE.ImageLoader( manager );
+            textureloader.load( texturefile, function ( image ) {
+                texture.image = image;
+                texture.needsUpdate = true;
+            } );
+        }
+
+        var loader = new THREE.ObjectLoader(manager);
+        loader.load( scenefile, function(obj){
+	        obj.traverse( function ( child ) {
+                if ( child instanceof THREE.Mesh ) {
+                    if (texturefile){
+                        child.material.map = texture;
+                    }
+                }
+            } );
+
+            // obj.position.y -= 50
+            // obj.position.z -= 250
+            scene.add(obj)
+        });
+    }
+
     tri.setupmap = function(){
         // geometry = new THREE.BoxGeometry(10, 10, 1);
         // g.mat1 = new THREE.MeshLambertMaterial({
@@ -61,31 +92,9 @@ var tri = (function(){
         // g.obj1 = new THREE.Mesh(geometry, g.mat1);
         // scene.add(g.obj1);
 
-        var manager = new THREE.LoadingManager();
-        manager.onProgress = function ( item, loaded, total ) {
-            console.log( item, loaded, total );
-        };
-
-        var texture = new THREE.Texture()
-        var loader = new THREE.ImageLoader( manager );
-        loader.load( 'static/eiffel-tower.scene/OLDMETAL.JPG', function ( image ) {
-            texture.image = image;
-            texture.needsUpdate = true;
-        } );
-
-        var loader = new THREE.ObjectLoader(manager);
-        loader.load( "static/eiffel-tower.scene/eiffel-tower.json", function(obj){
-	        obj.traverse( function ( child ) {
-                if ( child instanceof THREE.Mesh ) {
-                    child.material.map = texture;
-                }
-            } );
-
-            obj.position.y -= 50
-            obj.position.z -= 250
-            scene.add(obj)
-        });
-
+        // tri.loadobj(scene, "static/eiffel-tower.scene/eiffel-tower.json",
+        //            "static/eiffel-tower.scene/OLDMETAL.JPG")
+        tri.loadobj(scene, "static/tank.object/tank.json", null)
     }
 
     tri.bind = function(){
@@ -115,27 +124,28 @@ var tri = (function(){
         // cam.position.x = 10;
         // cam.position.z = k.heightaboveground;
         // cam.up = new THREE.Vector3(0, 0, 1)
-        // cam.rotation.order = "ZXY"
+        // cam.rotation.order = "YXZ"
+        // cam.rotation.z = 0
         // cam.lookAt(new THREE.Vector3(0, 0, k.heightaboveground))
 
-        // TODO CONTROLS. controls interfere with rotation
-        cam.position.z = 0;
+        // // TODO CONTROLS. controls interfere with rotation
+        // cam.position.z = 0;
 
-		controls = new THREE.TrackballControls(cam);
+		// controls = new THREE.TrackballControls(cam);
 
-		controls.rotateSpeed = 1.0;
-		controls.zoomSpeed = 1.2;
-		controls.panSpeed = 0.8;
+		// controls.rotateSpeed = 1.0;
+		// controls.zoomSpeed = 1.2;
+		// controls.panSpeed = 0.8;
 
-		controls.noZoom = false;
-		controls.noPan = false;
+		// controls.noZoom = false;
+		// controls.noPan = false;
 
-		controls.staticMoving = true;
-		controls.dynamicDampingFactor = 0.3;
+		// controls.staticMoving = true;
+		// controls.dynamicDampingFactor = 0.3;
 
-		controls.keys = [ 65, 83, 68 ];
+		// controls.keys = [ 65, 83, 68 ];
 
-		controls.addEventListener('change', tri.render);
+		// controls.addEventListener('change', tri.render);
     }
 
     tri.setupstats = function(){
