@@ -1,0 +1,17 @@
+{
+  "name": "voxel101",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "trng",
+  "license": "ISC",
+  "dependencies": {
+    "voxel": "^0.4.0",
+    "voxel-engine": "^0.20.1",
+    "voxel-hello-world": "^0.6.0",
+    "voxel-player": "^0.1.0"
+  }
+}
