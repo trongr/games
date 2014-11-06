@@ -63,8 +63,11 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     node.position = CGPointMake(skRand(0, self.size.width), self.size.height);
     [node setSize:size];
     node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:size];
-//    node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
     node.physicsBody.usesPreciseCollisionDetection = YES;
+    
+    SKAction *rotate = [SKAction rotateByAngle:M_PI*2 duration:1];
+    [node runAction: [SKAction repeatActionForever:rotate]];
+    
     [self addChild:node];
 }
 
