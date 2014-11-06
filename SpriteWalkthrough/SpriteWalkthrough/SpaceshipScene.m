@@ -17,6 +17,9 @@
 
 NSString* const SPACESHIP = @"SPACESHIP";
 NSString* const ROCK = @"ROCK";
+const float SHIP_THRUST = 1000;
+const float SHIP_MASS = 10;
+const float ROCK_MASS = 1;
 
 - (void)didMoveToView:(SKView *)view
 {
@@ -41,6 +44,8 @@ NSString* const ROCK = @"ROCK";
                                                 [SKAction waitForDuration:0.5 withRange:0.1]
                                                 ]];
 
+    self.physicsWorld.gravity = CGVectorMake(0.0f, -9.8f / 3);
+    
     [self runAction: [SKAction repeatActionForever:makeRocks]];
 }
 
@@ -67,6 +72,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     [node setSize:size];
     node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:size];
     node.physicsBody.usesPreciseCollisionDetection = YES;
+    node.physicsBody.mass = ROCK_MASS;
     
     SKAction *rotate = [SKAction rotateByAngle:M_PI*2 duration:1];
     [node runAction: [SKAction repeatActionForever:rotate]];
@@ -79,31 +85,24 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     
     node.name = SPACESHIP;
     node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
-    node.physicsBody.dynamic = NO;
+    node.physicsBody.affectedByGravity = NO;
+    node.physicsBody.mass = SHIP_MASS;
 
     return node;
-}
-
--(SKSpriteNode*)newLight {
-    SKSpriteNode *light = [[SKSpriteNode alloc] initWithColor:[SKColor yellowColor] size:CGSizeMake(10, 10)];
-    SKAction *blink = [SKAction sequence:@[
-        [SKAction fadeOutWithDuration:0.25],
-        [SKAction fadeInWithDuration:0.25]]];
-    SKAction *blinkForever = [SKAction repeatActionForever:blink];
-    [light runAction: blinkForever];
-    return light;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     SKNode *ship = [self childNodeWithName:SPACESHIP];
     CGPoint location = [[touches anyObject] locationInNode:self];
-    float angle = atan2f(location.y - ship.position.y, location.x - ship.position.x);
-    SKAction* group = [SKAction group: @[
-                          [SKAction moveTo:location duration:1.0f],
-//                          [SKAction rotateByAngle:angle duration:.1]
-                          ]];
+    
+    float diffy = location.y - ship.position.y;
+    float diffx = location.x - ship.position.x;
+    float angle = atan2f(diffy, diffx);
+    
     ship.zRotation = angle - M_PI / 2;
-    [ship runAction:group];
+    
+    [ship.physicsBody applyImpulse:CGVectorMake(SHIP_THRUST * cosf(angle), SHIP_THRUST * sinf(angle))];
+
 }
 
 float degToRad(float degree) {
