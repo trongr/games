@@ -56,11 +56,14 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 
 - (void)addRock
 {
-//    float w = skRand(5, 20);
+    float w = skRand(30, 100);
+    CGSize size = CGSizeMake(w, w);
     SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:@"rock.png"];
-    node.position = CGPointMake(skRand(0, self.size.width), self.size.height);
     node.name = @"rock";
-    node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
+    node.position = CGPointMake(skRand(0, self.size.width), self.size.height);
+    [node setSize:size];
+    node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:size];
+//    node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
     node.physicsBody.usesPreciseCollisionDetection = YES;
     [self addChild:node];
 }
