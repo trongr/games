@@ -15,6 +15,9 @@
 
 @implementation SpaceshipScene
 
+NSString* const SPACESHIP = @"SPACESHIP";
+NSString* const ROCK = @"ROCK";
+
 - (void)didMoveToView:(SKView *)view
 {
     if (!self.contentCreated)
@@ -43,7 +46,7 @@
 
 -(void)didSimulatePhysics
 {
-    [self enumerateChildNodesWithName:@"rock" usingBlock:^(SKNode *node, BOOL *stop) {
+    [self enumerateChildNodesWithName:ROCK usingBlock:^(SKNode *node, BOOL *stop) {
         if (node.position.y < 0)
             [node removeFromParent];
     }];
@@ -59,7 +62,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     float w = skRand(30, 100);
     CGSize size = CGSizeMake(w, w);
     SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:@"rock.png"];
-    node.name = @"rock";
+    node.name = ROCK;
     node.position = CGPointMake(skRand(0, self.size.width), self.size.height);
     [node setSize:size];
     node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:size];
@@ -74,18 +77,9 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 -(SKSpriteNode*)newSpaceship {
     SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:@"spaceship.png"];
     
+    node.name = SPACESHIP;
     node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
     node.physicsBody.dynamic = NO;
-    
-    SKAction *rotate = [SKAction rotateByAngle:M_PI*2 duration:2.0];
-    SKAction *seq = [SKAction sequence:@[
-                                         [SKAction moveByX:100 y:200 duration:1.0],
-                                         [SKAction waitForDuration:1.0],
-                                         [SKAction moveByX:-100.0 y:-200 duration:2]
-                                         ]];
-    SKAction *group = [SKAction group:@[rotate, seq]];
-    
-    [node runAction: [SKAction repeatActionForever:group]];
 
     return node;
 }
@@ -101,9 +95,18 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    SKScene *spriteScene  = [[SpriteScene alloc] initWithSize:self.size];
-    SKTransition *doors = [SKTransition fadeWithColor:[SKColor whiteColor] duration:0.5];
-    [self.view presentScene:spriteScene transition:doors];
+    SKNode *ship = [self childNodeWithName:SPACESHIP];
+    CGPoint location = [[touches anyObject] locationInNode:self];
+    double angle = atan2(location.y - ship.position.y, location.x - ship.position.x);
+    SKAction* seq = [SKAction sequence: @[
+                          [SKAction moveTo:location duration:1.0f],
+                          [SKAction rotateToAngle:angle duration:.1]
+                          ]];
+    [ship runAction:seq];
+}
+
+float degToRad(float degree) {
+	return degree / 180.0f * M_PI;
 }
 
 @end
