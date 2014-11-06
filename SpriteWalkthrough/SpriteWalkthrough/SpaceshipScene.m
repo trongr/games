@@ -28,10 +28,11 @@
 {
     self.backgroundColor = [SKColor blackColor];
     self.scaleMode = SKSceneScaleModeAspectFit;
-    SKSpriteNode *spaceship = [self newSpaceship];
+
+    SKSpriteNode* spaceship = [self newSpaceship];
     spaceship.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:spaceship];
-
+    
     SKAction *makeRocks = [SKAction sequence: @[
                                                 [SKAction performSelector:@selector(addRock) onTarget:self],
                                                 [SKAction waitForDuration:0.10 withRange:0.15]
@@ -66,28 +67,20 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 }
 
 -(SKSpriteNode*)newSpaceship {
-    SKSpriteNode* node = [[SKSpriteNode alloc] initWithColor:[SKColor greenColor] size:CGSizeMake(200, 50)];
-
+    SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:@"spaceship.png"];
+    
     node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
     node.physicsBody.dynamic = NO;
-
+    
     SKAction *rotate = [SKAction rotateByAngle:M_PI*2 duration:2.0];
     SKAction *seq = [SKAction sequence:@[
-        [SKAction moveByX:100 y:200 duration:1.0],
-        [SKAction waitForDuration:1.0],
-        [SKAction moveByX:-100.0 y:-200 duration:2]
-    ]];
+                                         [SKAction moveByX:100 y:200 duration:1.0],
+                                         [SKAction waitForDuration:1.0],
+                                         [SKAction moveByX:-100.0 y:-200 duration:2]
+                                         ]];
     SKAction *group = [SKAction group:@[rotate, seq]];
-
+    
     [node runAction: [SKAction repeatActionForever:group]];
-
-    SKSpriteNode *light1 = [self newLight];
-    light1.position = CGPointMake(-20, 30);
-    [node addChild:light1];
-
-    SKSpriteNode *light2 = [self newLight];
-    light2.position = CGPointMake(20, 30);
-    [node addChild:light2];
 
     return node;
 }
