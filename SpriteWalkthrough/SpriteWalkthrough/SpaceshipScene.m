@@ -38,7 +38,7 @@ NSString* const ROCK = @"ROCK";
     
     SKAction *makeRocks = [SKAction sequence: @[
                                                 [SKAction performSelector:@selector(addRock) onTarget:self],
-                                                [SKAction waitForDuration:0.10 withRange:0.15]
+                                                [SKAction waitForDuration:0.5 withRange:0.1]
                                                 ]];
 
     [self runAction: [SKAction repeatActionForever:makeRocks]];
@@ -97,12 +97,13 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     SKNode *ship = [self childNodeWithName:SPACESHIP];
     CGPoint location = [[touches anyObject] locationInNode:self];
-    double angle = atan2(location.y - ship.position.y, location.x - ship.position.x);
-    SKAction* seq = [SKAction sequence: @[
+    float angle = atan2f(location.y - ship.position.y, location.x - ship.position.x);
+    SKAction* group = [SKAction group: @[
                           [SKAction moveTo:location duration:1.0f],
-                          [SKAction rotateToAngle:angle duration:.1]
+//                          [SKAction rotateByAngle:angle duration:.1]
                           ]];
-    [ship runAction:seq];
+    ship.zRotation = angle - M_PI / 2;
+    [ship runAction:group];
 }
 
 float degToRad(float degree) {
