@@ -56,14 +56,13 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
 
 - (void)addRock
 {
-    float w = skRand(5, 20);
-    float h = skRand(5, 20);
-    SKSpriteNode *rock = [[SKSpriteNode alloc] initWithColor:[SKColor redColor] size:CGSizeMake(w, h)];
-    rock.position = CGPointMake(skRand(0, self.size.width), self.size.height);
-    rock.name = @"rock";
-    rock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:rock.size];
-    rock.physicsBody.usesPreciseCollisionDetection = YES;
-    [self addChild:rock];
+//    float w = skRand(5, 20);
+    SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:@"rock.png"];
+    node.position = CGPointMake(skRand(0, self.size.width), self.size.height);
+    node.name = @"rock";
+    node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
+    node.physicsBody.usesPreciseCollisionDetection = YES;
+    [self addChild:node];
 }
 
 -(SKSpriteNode*)newSpaceship {

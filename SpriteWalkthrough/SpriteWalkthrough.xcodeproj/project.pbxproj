@@ -24,6 +24,7 @@
 		84A33E4F1A030E2000D410D7 /* SpriteScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A33E4E1A030E2000D410D7 /* SpriteScene.m */; };
 		84A33E521A03189500D410D7 /* SpaceshipScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A33E511A03189500D410D7 /* SpaceshipScene.m */; };
 		84AE6AE91A0BDEDD00FE707E /* spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AE6AE81A0BDEDC00FE707E /* spaceship.png */; };
+		84AE6AEB1A0BF04600FE707E /* rock.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AE6AEA1A0BF04500FE707E /* rock.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		84A33E501A03189500D410D7 /* SpaceshipScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpaceshipScene.h; sourceTree = "<group>"; };
 		84A33E511A03189500D410D7 /* SpaceshipScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpaceshipScene.m; sourceTree = "<group>"; };
 		84AE6AE81A0BDEDC00FE707E /* spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spaceship.png; sourceTree = "<group>"; };
+		84AE6AEA1A0BF04500FE707E /* rock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rock.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 		84A33E1F1A030BF400D410D7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				84AE6AEA1A0BF04500FE707E /* rock.png */,
 				84AE6AE81A0BDEDC00FE707E /* spaceship.png */,
 				84A33E201A030BF400D410D7 /* SpriteWalkthrough-Info.plist */,
 				84A33E211A030BF400D410D7 /* InfoPlist.strings */,
@@ -243,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84AE6AE91A0BDEDD00FE707E /* spaceship.png in Resources */,
+				84AE6AEB1A0BF04600FE707E /* rock.png in Resources */,
 				84A33E311A030BF400D410D7 /* Images.xcassets in Resources */,
 				84A33E231A030BF400D410D7 /* InfoPlist.strings in Resources */,
 				84A33E2C1A030BF400D410D7 /* Main.storyboard in Resources */,
