@@ -17,6 +17,7 @@
 
 NSString* const SPACESHIP = @"SPACESHIP";
 NSString* const ROCK = @"ROCK";
+const float GRAVITY = -9.8f / 9;
 const float SHIP_THRUST = 1000;
 const float SHIP_MASS = 10;
 const float ROCK_MASS = 1;
@@ -44,7 +45,7 @@ const float ROCK_MASS = 1;
                                                 [SKAction waitForDuration:0.5 withRange:0.1]
                                                 ]];
 
-    self.physicsWorld.gravity = CGVectorMake(0.0f, -9.8f / 3);
+    self.physicsWorld.gravity = CGVectorMake(0.0f, GRAVITY);
     
     [self runAction: [SKAction repeatActionForever:makeRocks]];
 }
@@ -100,7 +101,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     float angle = atan2f(diffy, diffx);
     
 //    ship.zRotation = angle - M_PI / 2;
-    
+    [ship runAction: [SKAction rotateToAngle:(angle - M_PI / 2) duration:0.5]];
     [ship.physicsBody applyImpulse:CGVectorMake(SHIP_THRUST * cosf(angle), SHIP_THRUST * sinf(angle))];
 
 }
