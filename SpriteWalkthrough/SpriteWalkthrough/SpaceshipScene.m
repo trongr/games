@@ -99,7 +99,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     float diffx = location.x - ship.position.x;
     float angle = atan2f(diffy, diffx);
     
-    ship.zRotation = angle - M_PI / 2;
+//    ship.zRotation = angle - M_PI / 2;
     
     [ship.physicsBody applyImpulse:CGVectorMake(SHIP_THRUST * cosf(angle), SHIP_THRUST * sinf(angle))];
 
