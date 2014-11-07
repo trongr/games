@@ -22,6 +22,8 @@ const float SHIP_THRUST = 1000;
 const float SHIP_MASS = 10;
 const float ROCK_MASS = 1;
 
+NSString* const ROTATE_ACTION = @"ROTATE_ACTION";
+
 - (void)didMoveToView:(SKView *)view
 {
     if (!self.contentCreated)
@@ -109,7 +111,8 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
         diffangle = 2 * M_PI + diffangle;
     }
 
-    [ship runAction: [SKAction rotateByAngle:diffangle duration:0.5]];
+    [ship removeActionForKey:ROTATE_ACTION]; // stop previous rotating actions
+    [ship runAction: [SKAction rotateByAngle:diffangle duration:0.5] withKey:ROTATE_ACTION];
     [ship.physicsBody applyImpulse:CGVectorMake(SHIP_THRUST * cosf(angle2), SHIP_THRUST * sinf(angle2))];
 
 }
