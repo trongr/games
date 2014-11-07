@@ -36,18 +36,18 @@ const float ROCK_MASS = 1;
     self.backgroundColor = [SKColor blackColor];
     self.scaleMode = SKSceneScaleModeAspectFit;
 
+    self.physicsWorld.gravity = CGVectorMake(0.0f, GRAVITY);
+
     SKSpriteNode* spaceship = [self newSpaceship];
     spaceship.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:spaceship];
     
-    SKAction *makeRocks = [SKAction sequence: @[
-                                                [SKAction performSelector:@selector(addRock) onTarget:self],
-                                                [SKAction waitForDuration:0.5 withRange:0.1]
-                                                ]];
-
-    self.physicsWorld.gravity = CGVectorMake(0.0f, GRAVITY);
-    
-    [self runAction: [SKAction repeatActionForever:makeRocks]];
+//    SKAction *makeRocks = [SKAction sequence: @[
+//                                                [SKAction performSelector:@selector(addRock) onTarget:self],
+//                                                [SKAction waitForDuration:0.5 withRange:0.1]
+//                                                ]];
+//    
+//    [self runAction: [SKAction repeatActionForever:makeRocks]];
 }
 
 -(void)didSimulatePhysics
@@ -85,6 +85,7 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:@"spaceship.png"];
     
     node.name = SPACESHIP;
+    [node setScale:1.5];
     node.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:node.size];
     node.physicsBody.affectedByGravity = NO;
     node.physicsBody.mass = SHIP_MASS;
@@ -98,11 +99,18 @@ static inline CGFloat skRand(CGFloat low, CGFloat high) {
     
     float diffy = location.y - ship.position.y;
     float diffx = location.x - ship.position.x;
-    float angle = atan2f(diffy, diffx);
-    
-//    ship.zRotation = angle - M_PI / 2;
-    [ship runAction: [SKAction rotateToAngle:(angle - M_PI / 2) duration:0.5]];
-    [ship.physicsBody applyImpulse:CGVectorMake(SHIP_THRUST * cosf(angle), SHIP_THRUST * sinf(angle))];
+    float angle1 = ship.zRotation + M_PI_2;
+    float angle2 = atan2f(diffy, diffx);
+    angle1 = angle1 > M_PI ? -2 * M_PI + angle1 : angle1;
+    float diffangle = angle2 - angle1;
+    if (diffangle > M_PI){
+        diffangle = -(2 * M_PI - diffangle);
+    } else if (diffangle < -M_PI){
+        diffangle = 2 * M_PI + diffangle;
+    }
+
+    [ship runAction: [SKAction rotateByAngle:diffangle duration:0.5]];
+    [ship.physicsBody applyImpulse:CGVectorMake(SHIP_THRUST * cosf(angle2), SHIP_THRUST * sinf(angle2))];
 
 }
 
